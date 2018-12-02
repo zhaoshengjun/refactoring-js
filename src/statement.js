@@ -8,9 +8,9 @@ function statement(invoice, plays) {
     minimumFractionDigits: 2
   }).format;
   for (let perf of invoice.performances) {
-    const plays = plays[perf.playID];
+    const play = plays[perf.playID];
     let thisAmount = 0;
-    switch (plays.type) {
+    switch (play.type) {
       case "tragedy":
         thisAmount = 40000;
         if (perf.audience > 30) {
@@ -30,9 +30,11 @@ function statement(invoice, plays) {
     // add volume credits
     volumeCredits += Math.max(perf.audience - 30, 0);
     // add extra credit for every ten comedy attendances
-    if ("comedy" === paly.type) volumeCredits += Math.floor(perf.audience / 10);
+    if ("comedy" === play.type) volumeCredits += Math.floor(perf.audience / 10);
     // print line for this order
-    result += `  ${play.name}: ${format(thisAmount / 100)} (${perf.audience})`;
+    result += `  ${play.name}: ${format(thisAmount / 100)} (${
+      perf.audience
+    } seats)\n`;
     totalAmount += thisAmount;
   }
   result += `Amount owed is ${format(totalAmount / 100)} \n`;
