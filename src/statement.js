@@ -1,4 +1,5 @@
 function statement(invoice, plays) {
+  // main part
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
@@ -8,6 +9,19 @@ function statement(invoice, plays) {
     minimumFractionDigits: 2
   }).format;
 
+  for (let perf of invoice.performances) {
+    volumeCredits += volumeCreditsFor(perf);
+    // print line for this order
+    result += `  ${playFor(perf).name}: ${format(
+      amountFor(perf, playFor(perf)) / 100
+    )} (${perf.audience} seats)\n`;
+    totalAmount += amountFor(perf, playFor(perf));
+  }
+  result += `Amount owed is ${format(totalAmount / 100)} \n`;
+  result += `You earned ${volumeCredits} credits\n`;
+  return result;
+
+  // helper function
   function playFor(performance) {
     return plays[performance.playID];
   }
@@ -43,18 +57,6 @@ function statement(invoice, plays) {
       result += Math.floor(perf.audience / 10);
     return result;
   }
-
-  for (let perf of invoice.performances) {
-    volumeCredits += volumeCreditsFor(perf);
-    // print line for this order
-    result += `  ${playFor(perf).name}: ${format(
-      amountFor(perf, playFor(perf)) / 100
-    )} (${perf.audience} seats)\n`;
-    totalAmount += amountFor(perf, playFor(perf));
-  }
-  result += `Amount owed is ${format(totalAmount / 100)} \n`;
-  result += `You earned ${volumeCredits} credits\n`;
-  return result;
 }
 
 module.exports = statement;
