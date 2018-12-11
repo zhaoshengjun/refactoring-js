@@ -10,21 +10,12 @@ export default function createStatementData(invoice, plays) {
 		const result = Object.assign({}, performance);
 		result.play = calculator.play;
 		result.amount = calculator.amount;
-		result.volumeCredits = volumeCreditsFor(result);
+		result.volumeCredits = calculator.volumeCredits;
 		return result;
 	}
 
 	function playFor(performance) {
 		return plays[performance.playID];
-	}
-
-	function volumeCreditsFor(perf) {
-		let result = 0;
-		// add volume credits
-		result += Math.max(perf.audience - 30, 0);
-		// add extra credit for every ten comedy attendances
-		if ('comedy' === perf.play.type) result += Math.floor(perf.audience / 10);
-		return result;
 	}
 	function totalVolumeCredits(data) {
 		return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
@@ -42,7 +33,7 @@ class PerformanceCalculator {
 
 	get amount() {
 		let result = 0;
-		switch (this.performance.play.type) {
+		switch (this.play.type) {
 			case 'tragedy':
 				result = 40000;
 				if (this.performance.audience > 30) {
@@ -57,8 +48,17 @@ class PerformanceCalculator {
 				result += 300 * this.performance.audience;
 				break;
 			default:
-				throw new Error(`unknown type:${this.performance.play.type}`);
+				throw new Error(`unknown type:${this.play.type}`);
 		}
+		return result;
+	}
+
+	get volumeCredits() {
+		let result = 0;
+		// add volume credits
+		result += Math.max(this.performance.audience - 30, 0);
+		// add extra credit for every ten comedy attendances
+		if ('comedy' === this.play.type) result += Math.floor(this.performance.audience / 10);
 		return result;
 	}
 }

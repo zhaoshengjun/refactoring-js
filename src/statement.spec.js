@@ -11,7 +11,7 @@ describe('Statement', () => {
 		expect(statement(invoice, plays)).toContain(`Amount owed is $1,640.00`);
 		expect(statement(invoice, plays)).toContain(`You earned 43 credits`);
 	});
-	it.only('should works for html', () => {
+	it('should works for html', () => {
 		let html = statement(invoice, plays, 'html');
 		expect(html).toContain('<h1>Statment for BigCo</h1>');
 	});
