@@ -6,6 +6,7 @@ export default function createStatementData(invoice, plays) {
 	statementData.totalVolumeCredits = totalVolumeCredits(statementData);
 	return statementData;
 	function enrichPerformance(performance) {
+		const calculator = new PerformanceCalculator(performance);
 		const result = Object.assign({}, performance);
 		result.play = playFor(result);
 		result.amount = amountFor(result);
@@ -51,5 +52,11 @@ export default function createStatementData(invoice, plays) {
 	}
 	function totalAmount(data) {
 		return data.performances.reduce((total, p) => total + p.amount, 0);
+	}
+}
+
+class PerformanceCalculator {
+	constructor(performance) {
+		this.performance = performance;
 	}
 }
