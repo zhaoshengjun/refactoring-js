@@ -14,16 +14,6 @@ function renderPlainText(data) {
 	result += `Amount owed is ${usd(data.totalAmount)} \n`;
 	result += `You earned ${data.totalVolumeCredits} credits\n`;
 	return result;
-
-	// helper functions
-
-	function usd(amount) {
-		return new Intl.NumberFormat('en-Us', {
-			style: 'currency',
-			currency: 'USD',
-			minimumFractionDigits: 2
-		}).format(amount / 100);
-	}
 }
 
 function htmlStatement(invoice, plays) {
@@ -55,14 +45,13 @@ function renderHtml(data) {
   <p>You earned <em>${data.totalVolumeCredits}</em> credits</p>
   `;
 	return result;
-
-	function usd(amount) {
-		return new Intl.NumberFormat('en-Us', {
-			style: 'currency',
-			currency: 'USD',
-			minimumFractionDigits: 2
-		}).format(amount / 100);
-	}
+}
+function usd(amount) {
+	return new Intl.NumberFormat('en-Us', {
+		style: 'currency',
+		currency: 'USD',
+		minimumFractionDigits: 2
+	}).format(amount / 100);
 }
 
 module.exports = statement;
