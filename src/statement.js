@@ -54,7 +54,7 @@ function statement(invoice, plays) {
 	}
 }
 
-function renderPlainText(data, plays) {
+function renderPlainText(data) {
 	// main part
 	let result = `Statement for ${data.customer}\n`;
 	for (let perf of data.performances) {
