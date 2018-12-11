@@ -1,7 +1,12 @@
 const createStatementData = require('./createStatementData');
 
-function statement(invoice, plays) {
-	return renderPlainText(createStatementData(invoice, plays));
+function statement(invoice, plays, format = 'text') {
+	switch (format) {
+		case 'html':
+			return renderHtml(createStatementData(invoice, plays));
+		default:
+			return renderPlainText(createStatementData(invoice, plays));
+	}
 }
 
 function renderPlainText(data) {
@@ -14,10 +19,6 @@ function renderPlainText(data) {
 	result += `Amount owed is ${usd(data.totalAmount)} \n`;
 	result += `You earned ${data.totalVolumeCredits} credits\n`;
 	return result;
-}
-
-function htmlStatement(invoice, plays) {
-	return renderHtml(createStatementData(invoice, plays));
 }
 
 function renderHtml(data) {
