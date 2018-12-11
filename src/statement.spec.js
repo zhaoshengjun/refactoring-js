@@ -1,4 +1,4 @@
-const statement = require('./statement');
+import statement from './statement';
 const plays = require('./plays.json');
 const invoice = require('./invoice.json')[0];
 

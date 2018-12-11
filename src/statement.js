@@ -1,4 +1,4 @@
-const createStatementData = require('./createStatementData');
+import createStatementData from './createStatementData';
 
 function statement(invoice, plays, format = 'text') {
 	switch (format) {
